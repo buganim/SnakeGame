@@ -41,11 +41,8 @@ if __name__ == '__main__':
 
         if game.snake.move(next_move):
             game.board.updateBoard()
-            time.sleep(0.1)
-            os.system('cls')
-            # print(game.__str__())
-            # stdscr.addstr(game.__str__())
-            # stdscr.refresh()
+            print(game.__str__())
+
         else:
             print(game.endGame())
             break
