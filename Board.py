@@ -4,7 +4,7 @@ from colorama import Back
 
 class Board:
 
-    def __init__(self,game):
+    def __init__(self, game):
         self.score = 0
         self.snake = game.snake
         self.apple = game.apple
@@ -24,14 +24,14 @@ class Board:
         for cord in self.snake.trail:
             y = cord[0]
             x = cord[1]
-            self.matrix[y,x] = 1
-        self.matrix[self.apple.placementY,self.apple.placementX] = 2
+            self.matrix[y, x] = 1
+        self.matrix[self.apple.placementY, self.apple.placementX] = 2
 
     def clearBoard(self):
         for row in range(self.height):
             for cell in range(self.width):
-                self.matrix[row,cell] = 0
-    
+                self.matrix[row, cell] = 0
+
     def __str__(self):
         str_matrix = ""
         return_matrix = ""

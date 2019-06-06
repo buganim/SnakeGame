@@ -10,9 +10,10 @@ from colorama import Style
 
 init()
 
+
 class SnakeGame:
 
-    def __init__(self,size):
+    def __init__(self, size):
         self.size = size
         self.snake = Snake(self)
         self.apple = Apple(self)
@@ -24,6 +25,7 @@ class SnakeGame:
 
     def __str__(self):
         return("Board:\n{}".format(self.board.__str__()) + Style.RESET_ALL + "\n Snake: {}\n Apple: {}\n Score: {}\n SnakeLength: {}\n".format(self.snake.__str__(), self.apple.__str__(), self.board.score, self.snake.length))
+
 
 if __name__ == '__main__':
     # stdscr = curses.initscr()
