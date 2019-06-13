@@ -58,6 +58,9 @@ class Snake:
     def updateLastLocation(self):
         self.lastLoaction = [self.placementY, self.placementX]
 
+    def setLastDirection(self,direction):
+        self.lastDirection = direction
+
     def grow(self):
         self.length += 1
 

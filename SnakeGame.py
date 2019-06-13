@@ -1,3 +1,4 @@
+from pynput.keyboard import Key, Listener
 import os
 import sys
 import time
@@ -10,7 +11,6 @@ import decorators as d
 from threading import Thread
 
 init()
-ts = time.time()
 
 
 class SnakeGame:
@@ -21,6 +21,8 @@ class SnakeGame:
         self.apple = Apple(self)
         self.board = Board(self)
         self.board.updateBoard()
+        self.keyListener = Listener(on_press=self.on_press)
+        self.isGameRunning = True
 
     def makeMove(self, move):
         if self.snake.move(move):
@@ -33,43 +35,40 @@ class SnakeGame:
         return True
 
     def endGame(self):
+        self.isGameRunning = False
         return ("Game Ended, Score: {} !!!".format(self.board.score))
+
+    def on_press(self, key):
+        key = key.char
+
+        if key == 'a' or key == 's' or key == 'w' or key == 'd':
+            self.snake.setLastDirection(key)
 
     def __str__(self):
         return ("Board:\n{}".format(self.board.__str__()) + Style.RESET_ALL + "\n Score: {}\n".format(self.board.score))
 
+
 @d.timeit
-def play(boardSize,difficulty):
+def play(boardSize, difficulty):
     game = SnakeGame(boardSize)
     print(game.__str__())
 
-
     def moveAlone():
-        global ts
-        while True:
+
+        ts = time.time()
+        while game.isGameRunning:
             te = time.time()
             if te - ts > difficulty:
                 if not game.makeMove(game.snake.lastDirection):
                     break
                 ts = time.time()
 
-    def movePlayer():
-        global ts
-        while t1.isAlive():
-            ts = time.time()
-            next_move = input()
-            if not next_move == 'a' and not next_move == 's' and not next_move == 'w' and not next_move == 'd':
-                ts = time.time()
-                continue
-            if not game.makeMove(next_move):
-                break
-
-    t2 = Thread(target=movePlayer)
     t1 = Thread(target=moveAlone)
     t1.start()
-    t2.start()
+    game.keyListener.start()
     t1.join()
-    t2.join()
+    game.keyListener.join()
+
 
 if __name__ == '__main__':
-    print("Game Time: " + play(10,0.5))
+    print("Game Time: " + play(10, 0.5))
